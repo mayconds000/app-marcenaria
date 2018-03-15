@@ -54,7 +54,7 @@ $router->group(['prefix' =>'api'], function() use($router) {
 
     // ENVIRONMENT_ORDER
     $router->group(['prefix' => 'environments_order'], function() use($router) {
-        $router->get('/{order}', ['as' => 'environments_order', 'uses' => 'EnvironmentController@all']);
+        $router->get('/', ['as' => 'environments_order', 'uses' => 'EnvironmentController@all']);
         $router->post('/{order}', ['as' => 'environments_order', 'uses' => 'EnvironmentController@create']);
         $router->get('/{environment}', ['as' => 'environments_order.find', 'uses' => 'EnvironmentController@find']);
         $router->put('/{environment}', ['as' => 'environments_order.update', 'uses' => 'EnvironmentController@update']);
@@ -73,7 +73,7 @@ $router->group(['prefix' =>'api'], function() use($router) {
 
     // ENVIRONMENTPRODUCT
     $router->group(['prefix' => 'environment_product'], function() use($router) {
-        $router->get('/{environment}', ['as' => 'environment_product', 'uses' => 'EnvironmentProductController@all']);
+        $router->get('/', ['as' => 'environment_product', 'uses' => 'EnvironmentProductController@all']);
         $router->post('/{environment}', ['as' => 'environment_product', 'uses' => 'EnvironmentProductController@create']);
         $router->get('/{id}', ['as' => 'environment_product.find', 'uses' => 'EnvironmentProductController@find']);
         $router->put('/{id}', ['as' => 'environment_product.update', 'uses' => 'EnvironmentProductController@update']);
