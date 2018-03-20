@@ -18,5 +18,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(FakerGenerator::class, function () {
             return FakerFactory::create('pt_BR');
         });
+        $this->app->bind('App\\Repositories\\Contracts\UserRepositoryInterface', 'App\\Repositories\\UserRespository');
     }
 }

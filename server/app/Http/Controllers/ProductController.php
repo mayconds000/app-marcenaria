@@ -4,32 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Repositories\UserRepository as User;
+use App\Repositories\ProductRepository as Product;
 
 
 
-class UserController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    private $user;
+    private $product;
     
-    public function __construct(User $user)
+    public function __construct(Product $product)
     {
-        $this->user = $user;
+        $this->product = $product;
     }
 
     public function all() {
-        return response()->json($this->user->all());
+        return response()->json($this->product->all());
     }
 
     public function create(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'email' => 'required|unique:users',
+            'email' => 'required|unique:customers',
             'password' => 'required|min:6'    
         ]);
 
@@ -45,8 +45,8 @@ class UserController extends Controller
         $data = $request->only(['name', 'email', 'password']);
         $data['password'] = app('hash')->make($data['password']);
 
-        if ($user = $this->user->create($data)) {
-            return response()->json($user, 200);
+        if ($product = $this->product->create($data)) {
+            return response()->json($product, 200);
         }
 
         return response()->json([
@@ -57,8 +57,8 @@ class UserController extends Controller
     }
     
     public function find($id) {
-        $user = $this->user->find($id);
-        if ($user) { return response()->json($user, 200); }
+        $product = $this->product->find($id);
+        if ($product) { return response()->json($product, 200); }
         return response()->json([
             "status" => 400,
             "message" => "Bad request",
@@ -67,7 +67,7 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $res = $this->user->update($request->all(), $id);
+        $res = $this->product->update($request->all(), $id);
         if (! $res) {
             return response()->json([
                 "status" => 400,
@@ -78,12 +78,12 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 200,
-            'user' => $this->user->find($id)
+            'customer' => $this->product->find($id)
         ], 200);
     }
 
     public function delete($id) {
-        $res = $this->user->delete($id);
+        $res = $this->product->delete($id);
         if ($res) { 
             return response()->json([
                 "status" => 200,
