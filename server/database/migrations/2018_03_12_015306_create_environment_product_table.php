@@ -18,6 +18,7 @@ class CreateEnvironmentProductTable extends Migration
             $table->decimal('value', 10, 2);
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
             $table->integer('environment_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->foreign('environment_id')->references('id')->on('environment_order')->onDelete('cascade')->onUpdate('cascade');

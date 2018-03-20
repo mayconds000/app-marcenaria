@@ -27,6 +27,7 @@ class CreateCustomersTable extends Migration
             $table->string('phone1', 20);
             $table->string('phone2', 20);
             $table->string('observation');
+            $table->softDeletes();
             $table->timestamps();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')

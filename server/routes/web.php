@@ -21,7 +21,7 @@ $router->group(['prefix' =>'api'], function() use($router) {
         $router->get('/', ['as' => 'users', 'uses' => 'UserController@all']);
         $router->post('/', ['as' => 'users', 'uses' => 'UserController@create']);
         $router->get('/{user}', ['as' => 'users.find', 'uses' => 'UserController@find']);
-        $router->put('/{user}', ['as' => 'users', 'uses' => 'UserController@update']);
+        $router->patch('/{user}', ['as' => 'users', 'uses' => 'UserController@update']);
         $router->delete('/{user}', ['as' => 'users', 'uses' => 'UserController@delete']);
     });
 
@@ -30,7 +30,7 @@ $router->group(['prefix' =>'api'], function() use($router) {
         $router->get('/', ['as' => 'customers', 'uses' => 'CustomerController@all']);
         $router->post('/', ['as' => 'customers', 'uses' => 'CustomerController@create']);
         $router->get('/{customer}', ['as' => 'customers.find', 'uses' => 'CustomerController@find']);
-        $router->put('/{customer}', ['as' => 'customers', 'uses' => 'CustomerController@update']);
+        $router->patch('/{customer}', ['as' => 'customers', 'uses' => 'CustomerController@update']);
         $router->delete('/{customer}', ['as' => 'customers', 'uses' => 'CustomerController@delete']);
     });
 
