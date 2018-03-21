@@ -19,9 +19,9 @@ class CreateEnvironmentOrderTable extends Migration
             $table->integer('environment_id')->unsigned();
             $table->integer('order_id')->unsigned();
             $table->timestamps();
-            $talbe->softDeletes();
-            $table->foreign('environment_id')->references('id')->on('environment')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('order_id')->references('id')->on('order')->onDelete('cascade')->onUpdate('cascade');
+            $table->softDeletes();
+            $table->foreign('environment_id')->references('id')->on('environments')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             
         });
     }

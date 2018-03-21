@@ -9,7 +9,6 @@ use Illuminate\Container\Container as App;
 abstract class Repository implements RepositoryInterface
 {
     private $app;
-
     protected $model;
 
     public function __construct(App $app) {
@@ -19,12 +18,33 @@ abstract class Repository implements RepositoryInterface
 
     abstract function model();
 
-    public function all($columns = array('*')) {
-        return $this->model->get($columns);
-    }
+    public function all($columns = array('*'), $page = 1, $limit = 15) {
+        $data  = [];
+        $first = 1;
+        $total = $this->model->selectRaw('count(*) as total')->first()->total;
+        $per_page = $limit;
+        $last = $total / $limit;
+        $current = $page;
+        $previous = $page > 1 ? $page - 1 : null;
+        $next = $page < $last ? $page + 1 : null;
+        $offset = ($page - 1) * $limit;
+        $from = $offset + 1;
+        $to = $page * $limit;
+        $query = $this->model;
+        
+        $data = $query->limit($limit)->offset($offset)->get($columns);
 
-    public function paginate($perPage = 15, $columns = array('*')) {
-        return $this->model->paginate($perPage, $columns);
+        return compact(
+            'total',
+            'per_page',
+            'current',
+            'last',
+            'next',
+            'previous',
+            'from',
+            'to',
+            'data'
+        );
     }
 
     public function create(array $data) {
