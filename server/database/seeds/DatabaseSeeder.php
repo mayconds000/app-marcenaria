@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'password' => app('hash')->make('admin')
         ]);
 
-        factory(User::class, 3)->create()->each(function ($user) {
+        factory(User::class, 20)->create()->each(function ($user) {
             factory(Customer::class, 1)->create()->each(function ($customer) use ($user) {
                 $customer = $user->customer()->save($customer);
                 for ($i = 0; $i < 4; $i++) {
