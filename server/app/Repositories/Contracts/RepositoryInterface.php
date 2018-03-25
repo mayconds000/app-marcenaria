@@ -4,11 +4,13 @@ namespace App\Repositories\Contracts;
 
 interface RepositoryInterface
 {
-    public function all($columns = array('*'), $page = 1, $limit = 15, $customQuery = null);
+    public function all();
 
     public function find($id, $columns = array('*'));
 
-    public function findBy($field, $value, $columns = array('*'));
+    public function findBy(Array $queryArray, $columns = array('*'));
+
+    public function paginate($page, $limit, $columns);
 
     public function create(array $data);
 

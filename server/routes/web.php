@@ -23,6 +23,7 @@ $router->group(['prefix' =>'api'], function() use($router) {
         $router->get('/{user}', ['as' => 'users.find', 'uses' => 'UserController@find']);
         $router->patch('/{user}', ['as' => 'users', 'uses' => 'UserController@update']);
         $router->delete('/{user}', ['as' => 'users', 'uses' => 'UserController@delete']);
+        $router->get('/paginate/page/{page}/limit/{limit}', ['as' => 'users', 'uses' => 'UserController@paginate']);
     });
 
     // CUSTOMERS

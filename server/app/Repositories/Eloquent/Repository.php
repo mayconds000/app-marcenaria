@@ -18,21 +18,23 @@ abstract class Repository implements RepositoryInterface
 
     abstract function model();
 
-    public function all($columns = array('*'), $page = 1, $limit = 15) {
-        $data  = [];
-        $first = 1;
+    public function all() {
+        return $this->model->get();
+    }
+
+    public function paginate($page = 1, $limit = 15, $columns = array('*')) {
+        $per_page = intval($limit);
+        $current = intval($page);
+        $offset = ($current - 1) * $per_page;
+        $data = $this->model->limit($per_page)->offset($offset)->get($columns);
         $total = $this->model->selectRaw('count(*) as total')->first()->total;
-        $per_page = $limit;
-        $last = $total / $limit;
-        $current = $page;
-        $previous = $page > 1 ? $page - 1 : null;
-        $next = $page < $last ? $page + 1 : null;
-        $offset = ($page - 1) * $limit;
+        $first = $total > $per_page ? 1 : null;
+        $last = ceil($total / $per_page);
+        $previous = $current > 1 ? $current - 1 : null;
+        $next = $current < $last ? $current + 1 : null;
         $from = $offset + 1;
-        $to = $page * $limit;
-        $query = $this->model;
+        $to = $current * $per_page;
         
-        $data = $query->limit($limit)->offset($offset)->get($columns);
 
         return compact(
             'total',
@@ -63,10 +65,15 @@ abstract class Repository implements RepositoryInterface
         return $this->model->find($id)->first($columns);
     }
 
-    public function findBy($attribute, $value, $columns = array('*')) {
-        return $this->model->where($attribute, '=', $value)->first($columns);
+    public function findBy(Array $queryArray, $columns = array('*')) {
+        $model = $this->model;
+        foreach($queryArray as $query) {
+            list($column, $operator, $value) = $query;
+            $operator = $operator ?? '=';
+            $model->where($column, $operator, $value);
+        }
+        return $model->get($columns);
     }
-
 
     public function makeModel() {
         $model = $this->app->make($this->model());
@@ -76,6 +83,4 @@ abstract class Repository implements RepositoryInterface
         
         return $this->model = $model->newQuery();
     }
-
-
 }

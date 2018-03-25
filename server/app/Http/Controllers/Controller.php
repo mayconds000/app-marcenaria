@@ -80,4 +80,15 @@ abstract class Controller extends BaseController
             "errors" => ["Não foi possível deletar o registro"]
         ], 422);
     }
+
+    public function paginate($page, $limit) {
+        if ($data = $this->repository->paginate($page, $limit)) {
+            return response()->json($data, 200);
+        }
+
+        return response()->json([
+            "status" => 422,
+            "errors" => ['Registros não encontrados']
+        ], 422);
+    }
 }

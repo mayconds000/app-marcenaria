@@ -30,5 +30,4 @@ class UserController extends Controller
             'password' => 'min:6'
         ]);
     }
-
 }
